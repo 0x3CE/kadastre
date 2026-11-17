@@ -1,12 +1,23 @@
-# Données locales
+# Données locales (brut, bronze, staging) : jamais dans git
 data/*
 !data/.gitkeep
+
+# Journal d'entraînement aux entretiens : à garder dans un dépôt privé
+entretiens/
+
+# Secrets
+.env
+.env.*
 
 # Python
 __pycache__/
 *.py[cod]
 .venv/
 .pytest_cache/
+.ruff_cache/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# macOS
+.DS_Store

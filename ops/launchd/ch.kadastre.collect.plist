@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Lance la collecte chaque jour à 11 h 30, heure du Mac (après la publication des DLTINS, avant 9 h UTC).
+  Si le Mac dort à cette heure-là, launchd lance le job au réveil.
+  À charger seulement quand `src/kadastre/collect.py` existe (P0, Q2) :
+    1. remplace CHEMIN_DE_UV par la sortie de `which uv` ;
+    2. cp ops/launchd/ch.kadastre.collect.plist ~/Library/LaunchAgents/
+    3. launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ch.kadastre.collect.plist
+  Vérifier : launchctl list | grep kadastre ; journal dans ~/Library/Logs/kadastre-collect.log
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>ch.kadastre.collect</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>CHEMIN_DE_UV</string>
+        <string>run</string>
+        <string>python</string>
+        <string>-m</string>
+        <string>kadastre.collect</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/junot/Developer/kadastre</string>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>11</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/Users/junot/Library/Logs/kadastre-collect.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/junot/Library/Logs/kadastre-collect.log</string>
+</dict>
+</plist>
